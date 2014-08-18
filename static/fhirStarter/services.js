@@ -3,13 +3,13 @@ angular.module('fhirStarter').factory('fhirSettings', function($rootScope, oauth
   var servers = [
     {
       name: 'SMART on FHIR (smarthealthit.org)',
-      serviceUrl: 'https://fhir-api.smarthealthit.org',
+      serviceUrl: 'https://fhir-api-dstu2.smarthealthit.org',
       auth: {
         type: 'oauth2',
       }
     }, {
       name: 'SMART on FHIR (smarthealthit.org), no auth',
-      serviceUrl: 'https://fhir-open-api.smarthealthit.org',
+      serviceUrl: 'https://fhir-open-api-dstu2.smarthealthit.org',
       auth: {
         type: 'none'
       }
@@ -105,16 +105,13 @@ angular.module('fhirStarter').factory('oauth2', function($rootScope, $location) 
       return authorizing;
     },
     authorize: function(s){
-<<<<<<< HEAD
       // window.location.origin does not exist in some non-webkit browsers
       if (!window.location.origin) {
          window.location.origin = window.location.protocol + "//" 
             + window.location.hostname 
             + (window.location.port ? ':' + window.location.port: '');
       }
-    
-=======
->>>>>>> Configuration specific to public sandbox
+
       var thisUri = window.location.origin + window.location.pathname +'/';
       thisUrl = thisUri.replace(/\/+$/, "/");
       // TODO : remove registration step
