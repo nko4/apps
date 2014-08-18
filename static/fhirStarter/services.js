@@ -2,17 +2,29 @@ angular.module('fhirStarter').factory('fhirSettings', function($rootScope, oauth
 
   var servers = [
     {
-      name: 'Local FHIR dev server',
-      serviceUrl: 'http://localhost:9080'
+      name: 'SMART on FHIR (smarthealthit.org)',
+      serviceUrl: 'https://fhir-api.smarthealthit.org',
+      auth: {
+        type: 'oauth2',
+      }
     }, {
-      name: "SMART on FHIR (smarthealthit.org), no auth",
-      serviceUrl: "https://fhir-open-api.smarthealthit.org"
+      name: 'SMART on FHIR (smarthealthit.org), no auth',
+      serviceUrl: 'https://fhir-open-api.smarthealthit.org',
+      auth: {
+        type: 'none'
+      }
     }, {
       name: 'Health Intersections Server (Grahame)',
-      serviceUrl: 'http://fhir.healthintersections.com.au/open'
+      serviceUrl: 'http://fhir.healthintersections.com.au/open',
+      auth: {
+        type: 'none'
+      }
     }, {
       name: 'Furore Server (Ewout)',
-      serviceUrl: 'http://spark.furore.com/fhir'
+      serviceUrl: 'http://spark.furore.com/fhir',
+      auth: {
+        type: 'none'
+      }
     }
   ];
   
@@ -93,6 +105,7 @@ angular.module('fhirStarter').factory('oauth2', function($rootScope, $location) 
       return authorizing;
     },
     authorize: function(s){
+<<<<<<< HEAD
       // window.location.origin does not exist in some non-webkit browsers
       if (!window.location.origin) {
          window.location.origin = window.location.protocol + "//" 
@@ -100,6 +113,8 @@ angular.module('fhirStarter').factory('oauth2', function($rootScope, $location) 
             + (window.location.port ? ':' + window.location.port: '');
       }
     
+=======
+>>>>>>> Configuration specific to public sandbox
       var thisUri = window.location.origin + window.location.pathname +'/';
       thisUrl = thisUri.replace(/\/+$/, "/");
       // TODO : remove registration step
