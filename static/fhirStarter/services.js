@@ -15,13 +15,13 @@ angular.module('fhirStarter').factory('fhirSettings', function($rootScope, oauth
       }
     }, {
       name: 'Health Intersections Server (Grahame)',
-      serviceUrl: 'http://fhir.healthintersections.com.au/open',
+      serviceUrl: 'https://fhir.healthintersections.com.au/open',
       auth: {
         type: 'none'
       }
     }, {
       name: 'Furore Server (Ewout)',
-      serviceUrl: 'http://spark.furore.com/fhir',
+      serviceUrl: 'https://spark.furore.com/fhir',
       auth: {
         type: 'none'
       }
