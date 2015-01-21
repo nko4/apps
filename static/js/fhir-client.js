@@ -230,15 +230,10 @@ function providers(fhirServiceUrl, callback, errback){
       };
 
       try {
-        jQuery.each(r.rest[0].security, function(idx, arg){
-          if (idx === "http://fhir-registry.smarthealthit.org/Profile/oauth-uris#register") {
-            res.oauth2.registration_uri = arg[0].valueUri;
-          } else if (idx === "http://fhir-registry.smarthealthit.org/Profile/oauth-uris#authorize") {
-            res.oauth2.authorize_uri = arg[0].valueUri;
-          } else if (idx === "http://fhir-registry.smarthealthit.org/Profile/oauth-uris#token") {
-            res.oauth2.token_uri = arg[0].valueUri;
-          }
-        });
+        var security = r.rest[0].security;
+        res.oauth2.registration_uri = security["http://fhir-registry.smarthealthit.org/Profile/oauth-uris#register"].valueUri;
+        res.oauth2.authorize_uri = security["http://fhir-registry.smarthealthit.org/Profile/oauth-uris#authorize"].valueUri;
+        res.oauth2.token_uri = security["http://fhir-registry.smarthealthit.org/Profile/oauth-uris#token"].valueUri;
       }
       catch (err) {
         return errback && errback(err);
@@ -1300,23 +1295,23 @@ function Search(p) {
 
       if(bundle.link) {
         var next = bundle.link.filter(function(l){
-          return l.rel === "next";
+          return l.relation === "next";
         });
         if (next.length === 1) {
-          nextPageUrl = next[0].href 
+          nextPageUrl = next[0].url 
         }
       }
 
       var results = search.client.indexBundle(bundle); 
       d.resolve(results, search);
     }
-  };
+  }
 
   function failedBundle(d){
     return function(failure){
       d.reject("Search failed.", arguments);
     }
-  };
+  }
 
   search.hasNext = function(){
     return nextPageUrl !== null;
