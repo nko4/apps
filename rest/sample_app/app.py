@@ -7,6 +7,7 @@
 
 from flask import Flask, request, redirect, session, url_for
 from fhirclient import client
+from fhirclient.models.medication import Medication
 from fhirclient.models.medicationprescription import MedicationPrescription
 
 settings = {
@@ -28,11 +29,16 @@ def _get_smart():
         return client.FHIRClient(settings=settings, save_func=_save_state)
         
 def _get_prescriptions(smart):
-    return MedicationPrescription.where().patient(smart.patient_id).perform(smart.server)
-
+    bundle = MedicationPrescription.where({'patient': smart.patient_id}).perform(smart.server)
+    pres = [be.resource for be in bundle.entry] if bundle is not None and bundle.entry is not None else None
+    if pres is not None and len(pres) > 0:
+        return pres
+    return None
+    
 def _med_name(prescription):
-    if prescription.medication and prescription.medication.resolved and prescription.medication.resolved.name:
-        return prescription.medication.resolved.name
+    resolved = prescription.medication.resolved(Medication) if prescription.medication else None
+    if resolved is not None and resolved.name:
+        return resolved.name
     if prescription.medication and prescription.medication.display:
         return prescription.medication.display
     if prescription.text and prescription.text.div:
