@@ -18,6 +18,9 @@ GC.get_data = function() {
     GC.Preferences.prop("hidePatientHeader", hidePatientHeader);
 
     var patient = smart.context.patient;
+    
+    var allVitals = [];
+    var allFamilyHistories = [];
 
     var vitalsFetch = $.Deferred();
     var familyHistoryFetch = $.Deferred();
@@ -28,13 +31,11 @@ GC.get_data = function() {
     drain(drainVitals).done(doneVitals).fail(onError);
 
     patient.FamilyHistory.where.drain(drainFamilyHistory).done(doneFamilyHistory);
-
-    var allVitals = [];
+    
     function drainVitals(vs){
       [].push.apply(allVitals, vs); 
     };
-
-    var allFamilyHistories = [];
+    
     function drainFamilyHistory(vs){
       [].push.apply(allFamilyHistories, vs); 
     };
